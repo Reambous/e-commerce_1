@@ -1,8 +1,128 @@
-ini file dari irvan
+1. Tentukan Tujuan Proyek
+Tipe project: Website toko online sederhana
+Fitur utama: Homepage, Produk, Cart, Blog, Account 
+Output: Website yang bisa dijalankan di localhost, lalu bisa di-hosting
 
-edit pertaama
+2. Tentukan Stack yang Mudah untuk Pemula
+Rekomendasi paling aman untuk semester 3:
+Frontend: HTML, CSS, JavaScript
+Framework opsional: Bootstrap / Tailwind
+Backend: PHP atau Node.js
+Database: MySQL
+(Jika baru mulai, PHP + MySQL paling mudah.)
 
-edit kedua
+3. Buat Repository GitHub
+Kamu: Buat repo
+Teman: jadi collaborator
+Buat branch utama: main
+Buat branch kerja: frontend, backend, feature-<nama>
 
-random
-HAIDARRRR
+✅ PHASE 2 — Setup Workflow Kerja Tim
+4. Aturan Kerja GitHub
+Semua fitur dibuat di branch masing-masing
+Commit kecil-kecil
+Selalu tulis pesan commit rapi
+Pull request untuk gabung ke main
+
+5. Pembagian Tugas
+Contoh pembagian:
+Kamu: Frontend (struktur halaman, UI)
+Temanmu: Backend (PHP, MySQL, proses data)
+Revisi tiap minggu bareng via Google Meet/Github
+
+✅ PHASE 3 — Implementasi Sesuai Site Map
+6. Buat Struktur Folder
+/project
+  /frontend
+     index.html
+     product.html
+     cart.html
+     blog.html
+     account.html
+  /backend
+     database.php
+     productController.php
+     userController.php
+  /assets
+     /css
+     /js
+     /img
+
+7. Bangun Halaman Satu Per Satu
+Gunakan site map sebagai urutan pengerjaan:
+1. Homepage
+Banner
+Categories
+Flash sale
+New product
+Review
+Why choose us
+
+2. Product Page
+List kategori
+Sale
+Detail produk
+
+3. Cart
+Checkout
+Input alamat
+Gunakan voucher
+
+4. Blog
+Artikel tips & trick
+
+5. Account Page
+Login/Register
+Profil
+Transaksi
+Wishlist
+(Tidak semua harus langsung jadi. Kerjakan sedikit-sedikit, commit ke GitHub.)
+
+✅ PHASE 4 — Backend & Database
+8. Buat Database MySQL
+Tabel awal:
+users
+products
+categories
+cart
+transactions
+blog
+
+9. Bangun Endpoint/Backend
+Contoh:
+Register user
+Login
+Add to cart
+Get product list
+Save order
+
+✅ PHASE 5 — Integrasi Frontend & Backend
+Hubungkan file HTML dengan PHP (jika memakai PHP)
+atau fetch API (jika Node.js).
+
+✅ PHASE 6 — Testing & Deployment
+10. Testing
+Coba dari beberapa device
+Cek error form, login, cart
+
+11. Deploy
+Pilihan termudah:
+Frontend: Netlify / GitHub Pages
+Backend: Render, Railway, atau Hosting murah
+
+⭐ RANGKUMAN SINGKAT
+Untuk mempermudah:
+Rapat awal → pilih stack
+Buat repo GitHub
+Bagi tugas (frontend-backend)
+Buat halaman sesuai sitemaps
+Buat database
+Sambungkan backend
+Test & deploy
+
+Kalau kamu mau, aku bisa buatkan:
+🔹 Struktur database
+🔹 Template folder GitHub
+🔹 Checklist tugas harian/mingguan
+🔹 Roadmap 1 bulan / 3 bulan
+🔹 Contoh kode awal frontend & backend
