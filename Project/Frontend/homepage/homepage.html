@@ -1,181 +1,522 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TOKO RAKYAT - Homepage Modern</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* CSS Global & Reset */
+        body {
+            font-family: 'Poppins', sans-serif; /* Menggunakan font yang lebih modern */
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa; /* Latar belakang yang sangat bersih */
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- 1. Header & Navigasi --- */
+        .header-top {
+            background-color: #343a40; /* Darker bar di atas */
+            color: white;
+            padding: 5px 50px;
+            text-align: right;
+            font-size: 0.9em;
+        }
+        .header-top a {
+            color: white;
+            margin-left: 15px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: white;
+        }
+        .header .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            max-width: 600px;
+            background-color: #e9ecef; /* Warna abu-abu muda */
+            border-radius: 25px; /* Lebih halus */
+            overflow: hidden;
+            margin: 0 40px;
+        }
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            padding: 10px 15px;
+            font-size: 1em;
+            outline: none;
+        }
+        .search-bar button {
+            background: transparent;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #555;
+            font-size: 1.2em;
+        }
+
+        .cart-icon {
+            font-size: 1.8em;
+            color: #343a40;
+            cursor: pointer;
+        }
+
+        /* --- 2. Banner --- */
+        .banner-container {
+            width: 100%;
+            height: 250px;
+            /* Placeholder Image - Ganti dengan URL gambar Anda */
+            background-image: url('https://picsum.photos/1200/250?random=1'); 
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- 3. Bagian Konten Utama --- */
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            border-left: 5px solid #007bff; /* Garis biru sebagai aksen */
+            padding-left: 10px;
+        }
+
+        /* --- Kategori --- */
+        .categories {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            gap: 20px;
+        }
+        .category-item {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .category-item:hover {
+            transform: translateY(-5px); /* Efek hover halus */
+        }
+        .category-item .circle {
+            width: 80px;
+            height: 80px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #6c757d;
+        }
+        .category-item p {
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        /* --- Kartu Produk (Flash Sale & New Product) --- */
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .product-card {
+            flex: 1 1 calc(33.333% - 20px); /* 3 kartu per baris */
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card .product-image {
+            width: 100%;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        .product-card .product-info {
+            padding: 15px;
+        }
+        .product-card .subheading {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .product-card .body-text {
+            font-size: 0.85em;
+            color: #6c757d;
+        }
+        .product-card button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .product-card button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Gambar Placeholder Produk */
+        .img-1 { background-image: url('https://picsum.photos/300/200?random=1'); }
+        .img-2 { background-image: url('https://picsum.photos/300/200?random=2'); }
+        .img-3 { background-image: url('https://picsum.photos/300/200?random=3'); }
+        .img-4 { background-image: url('https://picsum.photos/300/200?random=4'); }
+        .img-5 { background-image: url('https://picsum.photos/300/200?random=5'); }
+        .img-6 { background-image: url('https://picsum.photos/300/200?random=6'); }
+
+        /* --- Bagian Review --- */
+        .review-section {
+            margin-bottom: 50px;
+        }
+        .review-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .review-card {
+            flex: 1 1 calc(33.333% - 15px);
+            background-color: #fff;
+            padding: 20px;
+            border-left: 4px solid #ffc107; /* Garis kuning untuk aksen review */
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .review-card p:first-child {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .review-card .reviewer {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: #007bff;
+        }
+
+        /* --- Why Choose Us (Keunggulan) --- */
+        .keunggulan-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+            margin-bottom: 80px;
+        }
+        .keunggulan-item {
+            flex: 1 1 calc(50% - 15px);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .keunggulan-item i {
+            font-size: 1.8em;
+            color: #28a745; /* Warna hijau untuk keunggulan */
+            margin-top: 5px;
+        }
+        .keunggulan-item h4 {
+            margin: 0 0 5px 0;
+            font-weight: 600;
+        }
+        .keunggulan-item p {
+            font-size: 0.85em;
+            color: #6c757d;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 50px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .footer-col {
+            min-width: 150px;
+        }
+        .footer-col h4 {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .footer-col a {
+            display: block;
+            margin-bottom: 8px;
+            color: #adb5bd;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .footer .social-icons a {
+            font-size: 1.2em;
+            margin-right: 15px;
+            color: #adb5bd;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #495057;
+            font-size: 0.8em;
+        }
+    </style>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
-        <nav>
 
-            <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-b border-default">
-              <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-              <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                  <img src="https://flowbite.com/docs/images/logo.svg" class="h-7" alt="Flowbite Logo" />
-                  <span class="self-center text-xl text-heading font-semibold whitespace-nowrap">Flowbite</span>
-              </a>
-              <div class="flex items-center md:order-2">
-                <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" class="flex items-center justify-center md:hidden text-body hover:text-heading bg-transparent box-border border border-transparent hover:bg-neutral-secondary-medium focus:ring-2 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm w-10 h-10 focus:outline-none">
-                  <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
-                  <span class="sr-only">Search</span>
-                </button>
-                <label for="input-group-1" class="sr-only">Your Email</label>
-                <div class="relative hidden md:block">
-                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
-                  </div>
-                  <input type="text" id="input-group-1" class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-2.5 py-2 shadow-xs placeholder:text-body" placeholder="Search">
-                </div>
-                <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-search" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
-                </button>
-              </div>
-                <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
-                  <div class="relative mt-3 md:hidden">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                      <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
-                    </div>
-                    <input type="text" id="input-group-1" class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand px-2.5 py-2 shadow-xs placeholder:text-body" placeholder="Search">
-                  </div>
-                  <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary">
-                    <li>
-                      <a href="#" class="block py-2 px-3 text-white bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0" aria-current="page">Home</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">About</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent">Services</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
-            
-  
-        </nav>
+    <div class="header-top">
+        <a href="#"><i class="fas fa-user-circle"></i> ACCOUNT</a>
+    </div>
 
-        <banner>
+    <header class="header">
+        <div class="logo">
+            <p style="margin:0;">TOKO</p>
+            <p style="margin:0;">RAKYAT</p>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Cari barang yang anda inginkan">
+            <button><i class="fas fa-search"></i></button>
+        </div>
 
-            <div id="controls-carousel" class="relative w-full" data-carousel="static">
-                <!-- Carousel wrapper -->
-                <div class="relative h-56 overflow-hidden rounded-base md:h-96">
-                     <!-- Item 1 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                        <img src="/docs/images/carousel/carousel-2.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="/docs/images/carousel/carousel-3.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="/docs/images/carousel/carousel-4.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 5 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="/docs/images/carousel/carousel-5.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                </div>
-                <!-- Slider controls -->
-                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-base bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
-                        <span class="sr-only">Previous</span>
-                    </span>
-                </button>
-                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-base bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
-                        <span class="sr-only">Next</span>
-                    </span>
-                </button>
+        <i class="fas fa-shopping-cart cart-icon"></i>
+    </header>
+
+    <div class="banner-container"></div>
+
+    <main class="main-content container">
+        
+        <section class="category-section">
+            <h2 class="section-title">Kategori</h2>
+            <div class="categories">
+                <a href="#" class="category-item">
+                    <div class="circle"><i class="fas fa-utensils"></i></div>
+                    <p>Makanan</p>
+                </a>
+                <a href="#" class="category-item">
+                    <div class="circle"><i class="fas fa-tshirt"></i></div>
+                    <p>Pakaian</p>
+                </a>
+                <a href="#" class="category-item">
+                    <div class="circle"><i class="fas fa-shoe-prints"></i></div>
+                    <p>Sepatu</p>
+                </a>
+                <a href="#" class="category-item">
+                    <div class="circle"><i class="fas fa-chair"></i></div>
+                    <p>Perabotan</p>
+                </a>
+                <a href="#" class="category-item">
+                    <div class="circle"><i class="fas fa-bolt"></i></div>
+                    <p>Elektronik</p>
+                </a>
             </div>
-                </banner>
+        </section>
+        
+        <section class="flash-sale-section">
+            <h2 class="section-title">Flash Sale 🔥</h2>
+            <div class="product-grid">
+                
+                <div class="product-card">
+                    <div class="product-image img-1"></div>
+                    <div class="product-info">
+                        <p class="subheading">Subheading</p>
+                        <p class="body-text">Body text for whatever you'd like to expand on the main point.</p>
+                        <button>Beli Sekarang</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image img-2"></div>
+                    <div class="product-info">
+                        <p class="subheading">Subheading</p>
+                        <p class="body-text">Body text for whatever you'd like to expand on the main point.</p>
+                        <button>Beli Sekarang</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image img-3"></div>
+                    <div class="product-info">
+                        <p class="subheading">Subheading</p>
+                        <p class="body-text">Body text for whatever you'd like to expand on the main point.</p>
+                        <button>Beli Sekarang</button>
+                    </div>
+                </div>
 
-                <category>
-                    
+            </div>
+        </section>
 
-<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg" alt="">
-    </div>
-    <div>
-        <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg" alt="">
-    </div>
-</div>
+        <section class="new-product-section">
+            <h2 class="section-title">Produk Baru ✨</h2>
+            <div class="product-grid">
+                
+                <div class="product-card">
+                    <div class="product-image img-4"></div>
+                    <div class="product-info">
+                        <p class="subheading">Subheading</p>
+                        <p class="body-text">Body text for whatever you'd like to expand on the main point.</p>
+                        <button>Lihat Detail</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image img-5"></div>
+                    <div class="product-info">
+                        <p class="subheading">Subheading</p>
+                        <p class="body-text">Body text for whatever you'd like to expand on the main point.</p>
+                        <button>Lihat Detail</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image img-6"></div>
+                    <div class="product-info">
+                        <p class="subheading">Subheading</p>
+                        <p class="body-text">Body text for whatever you'd like to expand on the main point.</p>
+                        <button>Lihat Detail</button>
+                    </div>
+                </div>
 
-                </category>
+            </div>
+        </section>
 
-                <rating>
-                    
+        <section class="review-section">
+            <h2 class="section-title">Review Pelanggan</h2>
+            <div class="review-grid">
+                
+                <div class="review-card">
+                    <p>"A benefit piece of praise"</p>
+                    <p class="reviewer"><i class="fas fa-star text-warning"></i> Nama Reviewer</p>
+                </div>
+                
+                <div class="review-card">
+                    <p>"A fantastic bit of feedback"</p>
+                    <p class="reviewer"><i class="fas fa-star text-warning"></i> Nama Reviewer</p>
+                </div>
+                
+                <div class="review-card">
+                    <p>"A genuinely glowing review"</p>
+                    <p class="reviewer"><i class="fas fa-star text-warning"></i> Nama Reviewer</p>
+                </div>
 
-<article>
-    <div class="flex items-center mb-4">
-        <img class="w-10 h-10 me-3 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
-        <div class="font-medium text-heading">
-            <p>Jese Leos <time datetime="2014-08-16 19:00" class="block text-sm text-body">Joined on August 2014</time></p>
+            </div>
+        </section>
+
+        <section class="keunggulan-section">
+            <h2 class="section-title">Why Choose TOKO RAKYAT</h2>
+            <div class="keunggulan-grid">
+                
+                <div class="keunggulan-item">
+                    <i class="fas fa-truck"></i>
+                    <div>
+                        <h4>Pengiriman Cepat</h4>
+                        <p>Body text for whatever you'd like to explain. Add main takeaway points, quotes, anecdotes, or even a very very short story.</p>
+                    </div>
+                </div>
+                
+                <div class="keunggulan-item">
+                    <i class="fas fa-tag"></i>
+                    <div>
+                        <h4>Harga Terjangkau</h4>
+                        <p>Body text for whatever you'd like to explain. Add main takeaway points, quotes, anecdotes, or even a very very short story.</p>
+                    </div>
+                </div>
+                
+                <div class="keunggulan-item">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <h4>Transaksi Aman</h4>
+                        <p>Body text for whatever you'd like to explain. Add main takeaway points, quotes, anecdotes, or even a very very short story.</p>
+                    </div>
+                </div>
+                
+                <div class="keunggulan-item">
+                    <i class="fas fa-sync-alt"></i>
+                    <div>
+                        <h4>Garansi Pengembalian</h4>
+                        <p>Body text for whatever you'd like to explain. Add main takeaway points, quotes, anecdotes, or even a very very short story.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="footer">
+        <div class="footer-grid container">
+            
+            <div class="footer-col">
+                <h4>Site Name</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Topic</h4>
+                <a href="#">Page</a>
+                <a href="#">Page</a>
+                <a href="#">Page</a>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Topic</h4>
+                <a href="#">Page</a>
+                <a href="#">Page</a>
+                <a href="#">Page</a>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Topic</h4>
+                <a href="#">Page</a>
+                <a href="#">Page</a>
+                <a href="#">Page</a>
+            </div>
         </div>
-    </div>
-    <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
-        <svg class="w-5 h-5 text-fg-yellow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/></svg>
-        <svg class="w-5 h-5 text-fg-yellow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/></svg>
-        <svg class="w-5 h-5 text-fg-yellow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/></svg>
-        <svg class="w-5 h-5 text-fg-yellow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/></svg>
-        <svg class="w-5 h-5 text-fg-disabled" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/></svg>
-        <h3 class="ms-2 text-sm font-semibold text-heading leading-none">Thinking to buy another one!</h3>
-    </div>
-    <footer class="mb-5 text-sm text-body mt-1"><p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time></p></footer>
-    <p class="mb-2 text-body">This is my third Invicta Pro Diver. They are just fantastic value for money. This one arrived yesterday and the first thing I did was set the time, popped on an identical strap from another Invicta and went in the shower with it to test the waterproofing.... No problems.</p>
-    <p class="mb-3 text-body">It is obviously not the same build quality as those very expensive watches. But that is like comparing a Citroën to a Ferrari. This watch was well under £100! An absolute bargain.</p>
-    <a href="#" class="block mb-5 text-sm font-medium text-fg-brand hover:underline">Read more</a>
-    <aside>
-        <p class="mt-1 text-xs text-body">19 people found this helpful</p>
-        <div class="flex items-center mt-3">
-            <button type="button" class="text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary-soft shadow-xs font-medium leading-5 rounded-base text-xs px-3 py-1.5 focus:outline-none">Helpful</button>
-            <a href="#" class="ps-4 text-sm font-medium text-fg-brand hover:underline border-default ms-4 border-s md:mb-0">Report abuse</a>
+        <div class="footer-bottom">
+            &copy; 2025 TOKO RAKYAT. All Rights Reserved.
         </div>
-    </aside>
-</article>
-
-                </rating>
+    </footer>
 
 </body>
 </html>
