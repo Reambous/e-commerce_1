@@ -9,8 +9,9 @@ session_start();
 //     die("Error: Fungsi koneksi database (connect_db) tidak ditemukan.");
 // }
 
-// // Lakukan koneksi
-// $conn = mysqli_connect();
+// Lakukan koneksi
+
+$conn = connect_db();
 
 // --- Logika Pengambilan Data Produk ---
 $featured_products = [];
