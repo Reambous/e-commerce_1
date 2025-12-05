@@ -22,6 +22,7 @@ if (isset($_POST["login"])) {
         $_SESSION["user_name"] = $data["name"];
         $_SESSION["user_role"] = $data["role"]; // Simpan role untuk otorisasi
         $_SESSION["is_login"] = true;
+        $_SESSION["join_date"] = $data["created_at"]; // Simpan dari kolom DB
 
         $conn->close();
         header("Location: dashboard.php"); // Ganti dashboard.php

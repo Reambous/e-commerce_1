@@ -20,6 +20,13 @@ if ($_SESSION["user_role"] !== 'admin') {
     exit();
 }
 
+//ini ga work gegara redirect terlalu banyak berarti udah ada yang direct otomatis ke admin kalo berhasil login?
+// if ($_SESSION["user_role"] === 'admin') {
+//     header("Location: index.php"); // Redirect ke admin/index.php
+// } else {
+//     header("Location: ../public/dashboard.php"); // Redirect ke public/dashboard.php
+// }
+
 // 3. Logika Logout
 if (isset($_POST["logout"])) {
     session_unset();
@@ -32,7 +39,7 @@ if (isset($_POST["logout"])) {
 // Asumsi: Variabel ini telah diset saat proses login (saat mengambil data dari DB)
 $nama_user = $_SESSION["user_name"] ?? 'Administrator';
 $role_user = $_SESSION["user_role"] ?? 'admin';
-$tanggal_gabung = $_SESSION["join_date"] ?? 'Tanggal Tidak Ditemukan'; // Asumsi ini ada di sesi
+$tanggal_gabung = $_SESSION["join_date"] ?? 'Tanggal Tidak Ditemukan';
 ?>
 
 <!DOCTYPE html>

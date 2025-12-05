@@ -11,6 +11,16 @@ if (!isset($_SESSION["is_login"]) || $_SESSION["is_login"] !== true) {
     exit();
 }
 
+// --- Variabel Sesi yang Dibutuhkan untuk Dashboard ---
+// Asumsi: Variabel ini telah diset saat proses login (saat mengambil data dari DB)
+$nama_user = $_SESSION["user_name"] ?? 'Administrator';
+// Cek apakah variabel sesi "user_id" sudah diset. 
+// Jika ya, gunakan nilainya. Jika tidak (??), gunakan nilai default 'a'.
+$id_user = $_SESSION["user_id"] ?? '#';
+$role_user = $_SESSION["user_role"] ?? 'admin';
+$tanggal_gabung = $_SESSION["join_date"] ?? 'Tanggal Tidak Ditemukan';
+
+
 // 2. Logika Logout
 if (isset($_POST["logout"])) {
     session_unset();
@@ -41,7 +51,7 @@ if (isset($_POST["logout"])) {
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><!-- Welcome Header -->
    <div class="mb-8">
     <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-    <p class="text-gray-600 mt-2">Selamat datang kembali, <!--?= $_SESSION["user_name"] ?-->!</p>
+    <p class="text-gray-600 mt-2">Selamat datang kembali, <?php echo htmlspecialchars($nama_user); ?>!</p>
    </div>
    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><!-- Profile Card -->
     <div class="lg:col-span-1">
@@ -56,15 +66,15 @@ if (isset($_POST["logout"])) {
       <div class="space-y-3">
        <div>
         <p class="text-xs text-gray-500 uppercase tracking-wide">User ID</p>
-        <p class="text-sm font-medium text-gray-900">#<!--?= $_SESSION["user_id"] ?--></p>
+        <p class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($id_user); ?></p>
        </div>
        <div>
-        <p class="text-xs text-gray-500 uppercase tracking-wide">Status Akun</p>
-        <p class="text-sm font-medium text-green-600">● Aktif</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wide">Role Akun</p>
+        <p class="text-sm font-medium text-green-600"><?php echo strtoupper(htmlspecialchars($role_user)); ?></p>
        </div>
        <div>
         <p class="text-xs text-gray-500 uppercase tracking-wide">Bergabung Sejak</p>
-        <p class="text-sm font-medium text-gray-900"><!--?= date('d M Y') ?--></p>
+        <p class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($tanggal_gabung); ?></p>
        </div>
       </div>
       <hr class="my-6"><!-- Logout Button -->
