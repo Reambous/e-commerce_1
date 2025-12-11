@@ -1,18 +1,13 @@
 <?php
-// ...existing code...
 include '../config/database.php';
 session_start();
 
 $regis_message = "";
 $status_type = "";
 
-// PANGGIL FUNGSI connect_db() UNTUK MENDAPATKAN KONEKSI
+// Dapatkan koneksi MySQL jika tersedia, atau null jika tidak
 $conn = connect_db();
-
-// Jika koneksi gagal, connect_db() sudah die() — tapi cek tambahan
-if (!$conn) {
-    die("Error: Tidak dapat terhubung ke database.");
-}
+$db_available = ($conn !== null && $conn !== false);
 
 // LOGIKA REGISTER (HARUS DI ATAS SEMUA OUTPUT)
 if (isset($_POST['register'])) {
@@ -47,65 +42,78 @@ if (isset($_POST['register'])) {
         $regis_message = implode("<br>", $errors);
         $status_type = "error";
     } else {
-        // Cek duplikat email menggunakan prepared statement
-        $stmt_check = $conn->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
-        if (!$stmt_check) {
-            $regis_message = "Error database: " . htmlspecialchars($conn->error);
-            $status_type = "error";
-        } else {
-            $stmt_check->bind_param("s", $email);
-            $stmt_check->execute();
-            $stmt_check->store_result();
+        // Hash password
+        $password_hashed = password_hash($password_plain, PASSWORD_DEFAULT);
 
-            if ($stmt_check->num_rows > 0) {
-                $regis_message = "Email sudah terdaftar.";
+        if ($db_available) {
+            // Gunakan MySQL jika tersedia
+            $stmt_check = $conn->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
+            if (!$stmt_check) {
+                $regis_message = "Error database: " . htmlspecialchars($conn->error);
                 $status_type = "error";
-                $stmt_check->close();
             } else {
-                $stmt_check->close();
+                $stmt_check->bind_param("s", $email);
+                $stmt_check->execute();
+                $stmt_check->store_result();
 
-                // Hash password
-                $password_hashed = password_hash($password_plain, PASSWORD_DEFAULT);
-
-                // Insert user — pastikan kolom role di DB menerima 'admin' atau 'user'
-                $stmt_ins = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-                if (!$stmt_ins) {
-                    $regis_message = "Error database: " . htmlspecialchars($conn->error);
+                if ($stmt_check->num_rows > 0) {
+                    $regis_message = "Email sudah terdaftar.";
                     $status_type = "error";
+                    $stmt_check->close();
                 } else {
-                    $stmt_ins->bind_param("ssss", $name, $email, $password_hashed, $role);
+                    $stmt_check->close();
 
-                    try {
-                        $exec = $stmt_ins->execute();
-                    } catch (mysqli_sql_exception $e) {
-                        $exec = false;
-                        $regis_message = "Error saat menyimpan user: " . htmlspecialchars($e->getMessage());
+                    $stmt_ins = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+                    if (!$stmt_ins) {
+                        $regis_message = "Error database: " . htmlspecialchars($conn->error);
                         $status_type = "error";
-                    }
-
-                    if ($exec) {
-                        // Berhasil registrasi
-                        $_SESSION['status_message'] = "Registrasi berhasil. Silakan login.";
-                        $_SESSION['status_type'] = "success";
-                        $stmt_ins->close();
-                        $conn->close();
-                        header("Location: login.php");
-                        exit();
                     } else {
-                        if ($regis_message === "") {
-                            $regis_message = "Gagal menyimpan data. Silakan coba lagi.";
+                        $stmt_ins->bind_param("ssss", $name, $email, $password_hashed, $role);
+
+                        try {
+                            $exec = $stmt_ins->execute();
+                        } catch (mysqli_sql_exception $e) {
+                            $exec = false;
+                            $regis_message = "Error saat menyimpan user: " . htmlspecialchars($e->getMessage());
                             $status_type = "error";
                         }
-                        $stmt_ins->close();
+
+                        if ($exec) {
+                            $_SESSION['status_message'] = "Registrasi berhasil. Silakan login.";
+                            $_SESSION['status_type'] = "success";
+                            $stmt_ins->close();
+                            if ($db_available) {
+                                $conn->close();
+                            }
+                            header("Location: login.php");
+                            exit();
+                        } else {
+                            if ($regis_message === "") {
+                                $regis_message = "Gagal menyimpan data. Silakan coba lagi.";
+                                $status_type = "error";
+                            }
+                            $stmt_ins->close();
+                        }
                     }
                 }
+            }
+        } else {
+            // Fallback: simpan ke file JSON sehingga data tetap persisten
+            $res = insert_user_file($name, $email, $password_hashed, $role);
+            if ($res['ok']) {
+                $_SESSION['status_message'] = "Registrasi berhasil. Silakan login.";
+                $_SESSION['status_type'] = "success";
+                header("Location: login.php");
+                exit();
+            } else {
+                $regis_message = $res['error'] ?? 'Gagal menyimpan data.';
+                $status_type = 'error';
             }
         }
     }
 }
 
 // Tutup koneksi di akhir jika belum ditutup
-// ...existing code...
 ?>
 <!doctype html>
 <html lang="id">
@@ -188,11 +196,10 @@ if (isset($_POST['register'])) {
     </div>
 
     <?php
-    if (isset($conn) && $conn) {
+    if ($db_available && isset($conn) && $conn) {
         $conn->close();
     }
     ?>
 </body>
 
 </html>
-// ...existing code...

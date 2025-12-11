@@ -4,51 +4,69 @@ session_start();
 $login_message = "";
 $status_type = "";
 
-// PANGGIL FUNGSI connect_db() UNTUK MENDAPATKAN KONEKSI
+// PANGGIL FUNGSI connect_db() UNTUK MENDAPATKAN KONEKSI (null jika tidak tersedia)
 $conn = connect_db();
+$db_available = ($conn !== null && $conn !== false);
 
 // LOGIKA LOGIN HARUS DI ATAS SEMUA OUTPUT
 if (isset($_POST["login"])) {
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
 
-    // Gunakan prepared statement untuk keamanan (mencegah SQL Injection)
-    $stmt = $conn->prepare("SELECT id, name, email, password, role FROM users WHERE email = ?");
+    if ($db_available) {
+        // Gunakan prepared statement untuk keamanan (mencegah SQL Injection)
+        $stmt = $conn->prepare("SELECT id, name, email, password, role FROM users WHERE email = ?");
 
-    if (!$stmt) {
-        $login_message = "❌ Error: Database error - " . $conn->error;
-        $status_type = "error";
-    } else {
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        if (!$stmt) {
+            $login_message = "❌ Error: Database error - " . $conn->error;
+            $status_type = "error";
+        } else {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-        if ($result->num_rows === 1) {
-            $data = $result->fetch_assoc();
+            if ($result->num_rows === 1) {
+                $data = $result->fetch_assoc();
 
-            // Verifikasi password dengan password_verify (BCRYPT)
-            if (password_verify($password, $data["password"])) {
-                // SET VARIABEL SESI
-                $_SESSION["user_id"] = $data["id"];
-                $_SESSION["user_name"] = $data["name"];
-                $_SESSION["user_role"] = $data["role"];
-                $_SESSION["is_login"] = true;
+                // Verifikasi password dengan password_verify (BCRYPT)
+                if (password_verify($password, $data["password"])) {
+                    // SET VARIABEL SESI
+                    $_SESSION["user_id"] = $data["id"];
+                    $_SESSION["user_name"] = $data["name"];
+                    $_SESSION["user_role"] = $data["role"];
+                    $_SESSION["is_login"] = true;
 
-                $stmt->close();
-                $conn->close();
+                    $stmt->close();
+                    $conn->close();
 
-                // Redirect ke dashboard admin
-                header("Location: dashboard.php");
-                exit();
+                    // Redirect ke dashboard admin
+                    header("Location: dashboard.php");
+                    exit();
+                } else {
+                    $login_message = "❌ Login Gagal. Email atau Password salah.";
+                    $status_type = "error";
+                }
             } else {
                 $login_message = "❌ Login Gagal. Email atau Password salah.";
                 $status_type = "error";
             }
+            $stmt->close();
+        }
+    } else {
+        // Fallback: cari user di file JSON
+        $user = get_user_by_email_file($email);
+        if ($user && isset($user['password']) && password_verify($password, $user['password'])) {
+            $_SESSION["user_id"] = $user['id'];
+            $_SESSION["user_name"] = $user['name'];
+            $_SESSION["user_role"] = $user['role'];
+            $_SESSION["is_login"] = true;
+
+            header("Location: dashboard.php");
+            exit();
         } else {
             $login_message = "❌ Login Gagal. Email atau Password salah.";
             $status_type = "error";
         }
-        $stmt->close();
     }
 }
 ?>
@@ -115,7 +133,7 @@ if (isset($_POST["login"])) {
 
     <?php
     // Tutup koneksi di akhir
-    if (isset($conn) && $conn) {
+    if ($db_available && isset($conn) && $conn) {
         $conn->close();
     }
     ?>
