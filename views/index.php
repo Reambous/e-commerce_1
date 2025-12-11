@@ -41,7 +41,7 @@ mysqli_close($conn);
 <?php 
 // Asumsi file header.php ada di public/partials/
 // Pastikan file ini ada
-// include 'partials/header.php'; 
+include 'partials/header.php'; 
 ?>
 
     <main class="container">
@@ -100,5 +100,5 @@ mysqli_close($conn);
 <?php 
 // Asumsi file footer.php ada di public/partials/
 // Pastikan file ini ada
-// include 'partials/footer.php'; 
+include 'partials/footer.php'; 
 ?>
